@@ -48,3 +48,32 @@ mobileViewport.addEventListener('change', () => {
     setMenuOpen(false);
   }
 });
+
+const serviceTriggers = document.querySelectorAll('.service-card__trigger');
+if (serviceTriggers.length && typeof HTMLDialogElement !== 'undefined' && typeof HTMLDialogElement.prototype.showModal === 'function') {
+  document.documentElement.classList.add('dialog-ready');
+
+  for (const trigger of serviceTriggers) {
+    const dialog = document.getElementById(trigger.getAttribute('aria-controls'));
+    const closeButton = dialog?.querySelector('.service-dialog__close');
+    if (!dialog || !closeButton) continue;
+
+    trigger.addEventListener('click', () => {
+      if (isMenuOpen()) setMenuOpen(false);
+      dialog.showModal();
+      document.documentElement.classList.add('service-dialog-open');
+      closeButton.focus();
+    });
+
+    closeButton.addEventListener('click', () => dialog.close());
+
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+
+    dialog.addEventListener('close', () => {
+      document.documentElement.classList.remove('service-dialog-open');
+      trigger.focus();
+    });
+  }
+}

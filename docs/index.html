@@ -12,9 +12,9 @@
     <title>MCA Contabilidade &amp; Assessoria | Prévia para avaliação</title>
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="preload" href="assets/mca-logo.png" as="image" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=service-details-2" />
     <link rel="stylesheet" href="blog.css" />
-    <script src="script.js" defer></script>
+    <script src="script.js?v=service-details-2" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
@@ -125,6 +125,7 @@
               </div>
               <h3>Contabilidade empresarial</h3>
               <p>Informações organizadas para acompanhar a empresa e apoiar suas decisões.</p>
+              <button class="service-card__trigger" type="button" aria-label="Saiba mais sobre contabilidade empresarial" aria-haspopup="dialog" aria-controls="service-dialog-contabilidade"><span>Saiba mais <span aria-hidden="true">↗</span></span></button>
             </article>
             <article class="service-card">
               <span class="service-card__number" aria-hidden="true">02</span>
@@ -133,6 +134,7 @@
               </div>
               <h3>Fiscal e tributário</h3>
               <p>Acompanhamento das obrigações fiscais conforme a realidade do seu negócio.</p>
+              <button class="service-card__trigger" type="button" aria-label="Saiba mais sobre fiscal e tributário" aria-haspopup="dialog" aria-controls="service-dialog-fiscal"><span>Saiba mais <span aria-hidden="true">↗</span></span></button>
             </article>
             <article class="service-card">
               <span class="service-card__number" aria-hidden="true">03</span>
@@ -141,6 +143,7 @@
               </div>
               <h3>Departamento pessoal</h3>
               <p>Apoio às rotinas de folha de pagamento e às obrigações trabalhistas.</p>
+              <button class="service-card__trigger" type="button" aria-label="Saiba mais sobre departamento pessoal" aria-haspopup="dialog" aria-controls="service-dialog-pessoal"><span>Saiba mais <span aria-hidden="true">↗</span></span></button>
             </article>
             <article class="service-card">
               <span class="service-card__number" aria-hidden="true">04</span>
@@ -149,6 +152,7 @@
               </div>
               <h3>Abertura de empresas</h3>
               <p>Orientação para entender as etapas e começar a estruturar seu negócio.</p>
+              <button class="service-card__trigger" type="button" aria-label="Saiba mais sobre abertura de empresas" aria-haspopup="dialog" aria-controls="service-dialog-abertura"><span>Saiba mais <span aria-hidden="true">↗</span></span></button>
             </article>
             <article class="service-card">
               <span class="service-card__number" aria-hidden="true">05</span>
@@ -157,6 +161,7 @@
               </div>
               <h3>Regularização de empresas</h3>
               <p>Análise da situação da empresa e orientação sobre os próximos passos.</p>
+              <button class="service-card__trigger" type="button" aria-label="Saiba mais sobre regularização de empresas" aria-haspopup="dialog" aria-controls="service-dialog-regularizacao"><span>Saiba mais <span aria-hidden="true">↗</span></span></button>
             </article>
             <article class="service-card">
               <span class="service-card__number" aria-hidden="true">06</span>
@@ -165,6 +170,7 @@
               </div>
               <h3>Assessoria contábil</h3>
               <p>Uma conversa próxima para esclarecer dúvidas e apoiar o planejamento da empresa.</p>
+              <button class="service-card__trigger" type="button" aria-label="Saiba mais sobre assessoria contábil" aria-haspopup="dialog" aria-controls="service-dialog-assessoria"><span>Saiba mais <span aria-hidden="true">↗</span></span></button>
             </article>
           </div>
         </div>
@@ -283,5 +289,107 @@
         </div>
       </section>
     </main>
+
+    <dialog class="service-dialog" id="service-dialog-contabilidade" aria-labelledby="service-title-contabilidade" aria-describedby="service-lead-contabilidade">
+      <div class="service-dialog__panel">
+        <div class="service-dialog__top"><span>Serviço 01</span><button class="service-dialog__close" type="button">Fechar <span aria-hidden="true">×</span></button></div>
+        <h2 id="service-title-contabilidade">Contabilidade empresarial</h2>
+        <p class="service-dialog__lead" id="service-lead-contabilidade">Organiza as informações contábeis da empresa para acompanhar sua evolução e entender melhor os números.</p>
+        <div class="service-dialog__benefits">
+          <h3>Como isso pode ajudar você</h3>
+          <ul role="list">
+            <li>Enxergar o negócio com mais contexto, além do saldo bancário.</li>
+            <li>Ter registros organizados para conversar sobre decisões.</li>
+            <li>Perceber dúvidas ou dados faltantes antes de uma escolha importante.</li>
+          </ul>
+        </div>
+        <p class="service-dialog__note">O formato do apoio depende da necessidade e do escopo combinado com a MCA.</p>
+      </div>
+    </dialog>
+
+    <dialog class="service-dialog" id="service-dialog-fiscal" aria-labelledby="service-title-fiscal" aria-describedby="service-lead-fiscal">
+      <div class="service-dialog__panel">
+        <div class="service-dialog__top"><span>Serviço 02</span><button class="service-dialog__close" type="button">Fechar <span aria-hidden="true">×</span></button></div>
+        <h2 id="service-title-fiscal">Fiscal e tributário</h2>
+        <p class="service-dialog__lead" id="service-lead-fiscal">Acompanha as informações e obrigações fiscais aplicáveis à atividade e ao enquadramento do negócio.</p>
+        <div class="service-dialog__benefits">
+          <h3>Como isso pode ajudar você</h3>
+          <ul role="list">
+            <li>Entender o que precisa ser informado ou recolhido.</li>
+            <li>Preparar documentos para conferir apurações e prazos.</li>
+            <li>Avaliar o impacto fiscal de mudanças na empresa.</li>
+          </ul>
+        </div>
+        <p class="service-dialog__note">O formato do apoio depende da necessidade e do escopo combinado com a MCA.</p>
+      </div>
+    </dialog>
+
+    <dialog class="service-dialog" id="service-dialog-pessoal" aria-labelledby="service-title-pessoal" aria-describedby="service-lead-pessoal">
+      <div class="service-dialog__panel">
+        <div class="service-dialog__top"><span>Serviço 03</span><button class="service-dialog__close" type="button">Fechar <span aria-hidden="true">×</span></button></div>
+        <h2 id="service-title-pessoal">Departamento pessoal</h2>
+        <p class="service-dialog__lead" id="service-lead-pessoal">Reúne as rotinas de folha e as informações trabalhistas quando a empresa conta com uma equipe.</p>
+        <div class="service-dialog__benefits">
+          <h3>Como isso pode ajudar você</h3>
+          <ul role="list">
+            <li>Manter dados e documentos de colaboradores organizados.</li>
+            <li>Acompanhar a rotina da folha com menos improviso.</li>
+            <li>Entender o que precisa ser alinhado em admissões, férias e desligamentos.</li>
+          </ul>
+        </div>
+        <p class="service-dialog__note">O formato do apoio depende da necessidade e do escopo combinado com a MCA.</p>
+      </div>
+    </dialog>
+
+    <dialog class="service-dialog" id="service-dialog-abertura" aria-labelledby="service-title-abertura" aria-describedby="service-lead-abertura">
+      <div class="service-dialog__panel">
+        <div class="service-dialog__top"><span>Serviço 04</span><button class="service-dialog__close" type="button">Fechar <span aria-hidden="true">×</span></button></div>
+        <h2 id="service-title-abertura">Abertura de empresas</h2>
+        <p class="service-dialog__lead" id="service-lead-abertura">Ajuda a planejar a formalização, considerando atividade, estrutura, endereço e registros aplicáveis.</p>
+        <div class="service-dialog__benefits">
+          <h3>Como isso pode ajudar você</h3>
+          <ul role="list">
+            <li>Comparar caminhos antes de preencher cadastros.</li>
+            <li>Preparar as informações para cada etapa da abertura.</li>
+            <li>Levantar perguntas sobre licenças e tributação desde o início.</li>
+          </ul>
+        </div>
+        <p class="service-dialog__note">O formato do apoio depende da necessidade e do escopo combinado com a MCA.</p>
+      </div>
+    </dialog>
+
+    <dialog class="service-dialog" id="service-dialog-regularizacao" aria-labelledby="service-title-regularizacao" aria-describedby="service-lead-regularizacao">
+      <div class="service-dialog__panel">
+        <div class="service-dialog__top"><span>Serviço 05</span><button class="service-dialog__close" type="button">Fechar <span aria-hidden="true">×</span></button></div>
+        <h2 id="service-title-regularizacao">Regularização de empresas</h2>
+        <p class="service-dialog__lead" id="service-lead-regularizacao">A regularização começa por identificar pendências cadastrais, fiscais ou documentais e organizar os próximos passos.</p>
+        <div class="service-dialog__benefits">
+          <h3>Como isso pode ajudar você</h3>
+          <ul role="list">
+            <li>Ter uma visão das pendências e das prioridades.</li>
+            <li>Reunir documentos para tratar cada ponto.</li>
+            <li>Saber quais informações ainda faltam para avançar.</li>
+          </ul>
+        </div>
+        <p class="service-dialog__note">O formato do apoio depende da necessidade e do escopo combinado com a MCA.</p>
+      </div>
+    </dialog>
+
+    <dialog class="service-dialog" id="service-dialog-assessoria" aria-labelledby="service-title-assessoria" aria-describedby="service-lead-assessoria">
+      <div class="service-dialog__panel">
+        <div class="service-dialog__top"><span>Serviço 06</span><button class="service-dialog__close" type="button">Fechar <span aria-hidden="true">×</span></button></div>
+        <h2 id="service-title-assessoria">Assessoria contábil</h2>
+        <p class="service-dialog__lead" id="service-lead-assessoria">Uma conversa orientada para interpretar as informações do negócio e discutir decisões com mais clareza.</p>
+        <div class="service-dialog__benefits">
+          <h3>Como isso pode ajudar você</h3>
+          <ul role="list">
+            <li>Transformar dúvidas em perguntas e próximos passos.</li>
+            <li>Avaliar escolhas com dados organizados.</li>
+            <li>Identificar informações que faltam antes de decidir.</li>
+          </ul>
+        </div>
+        <p class="service-dialog__note">O formato do apoio depende da necessidade e do escopo combinado com a MCA.</p>
+      </div>
+    </dialog>
   </body>
 </html>
