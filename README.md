@@ -17,7 +17,7 @@ npm ci
 npm run build:blog
 ```
 
-Revise as páginas geradas em `docs/blog/` e publique os arquivos Markdown e HTML juntos. O GitHub Pages serve os HTMLs de `docs/`; ele não executa o gerador Node. A página inicial destaca três artigos escolhidos manualmente em `docs/index.html`.
+Revise as páginas geradas em `docs/blog/` e publique os arquivos Markdown e HTML juntos. O GitHub Pages serve os HTMLs de `docs/`; ele não executa o gerador Node. A lista `preferredOrder` em `scripts/build-blog.mjs` define a ordem editorial; os três primeiros artigos aparecem também como destaque na página inicial.
 
 Antes de transformar a prévia em site definitivo, a MCA precisa aprovar o blog, indicar quem fará a revisão técnica dos artigos e definir como será a atualização das informações contábeis. As datas e fontes estão visíveis nos textos para facilitar essa revisão.
 

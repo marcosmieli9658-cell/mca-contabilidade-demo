@@ -15,6 +15,8 @@ sources:
     url: "https://www.gov.br/empresas-e-negocios/pt-br/empreendedor/servicos-para-mei/relatorio-mensal"
   - title: "Receita Federal — Quem é MEI está obrigado a declarar IRPF?"
     url: "https://www.gov.br/receitafederal/pt-br/acesso-a-informacao/perguntas-frequentes/imposto-de-renda/dirpf/obrigacao/mei"
+  - title: "Ministério do Empreendedorismo — Novidade anunciada para documentos fiscais do MEI em 2026"
+    url: "https://www.gov.br/memp/pt-br/assuntos/noticias/mei-podera-usar-declaracao-anual-no-lugar-da-nota-fiscal-para-pessoas-fisicas"
 ---
 
 As siglas são parecidas, mas apontam para tarefas diferentes na rotina do microempreendedor individual. **DAS é uma guia de pagamento mensal; DASN-SIMEI é uma declaração anual de informações.** Fazer uma delas não resolve automaticamente a outra.
@@ -28,6 +30,8 @@ Na prática, pense no DAS como a tarefa de **conferir e pagar a guia de cada mê
 ## O que é a DASN-SIMEI?
 
 A **Declaração Anual do Simples Nacional do MEI (DASN-SIMEI)** informa a receita bruta do ano-calendário anterior e se houve contratação de empregado no período. É uma **declaração**, transmitida pela internet, e não a guia mensal de contribuição. O [Portal do Empreendedor orienta a preparar os valores mês a mês](https://www.gov.br/empresas-e-negocios/pt-br/empreendedor/servicos-para-mei/declaracao-anual-de-faturamento/o-que-e-a-dasn-simei).
+
+Em outubro de 2026, o [Ministério do Empreendedorismo anunciou](https://www.gov.br/memp/pt-br/assuntos/noticias/mei-podera-usar-declaracao-anual-no-lugar-da-nota-fiscal-para-pessoas-fisicas) a possibilidade de usar a DASN-SIMEI como documento fiscal eletrônico em operações com consumidores finais pessoas físicas, observadas deliberações do Simples Nacional. Esse anúncio não muda a diferença entre **declarar o faturamento** e **pagar o DAS mensal**. Para entender o cuidado com a emissão fiscal, leia também [o guia de nota fiscal do MEI](../nota-fiscal-mei/).
 
 Mesmo quando não houve faturamento no período, a [orientação oficial prevê a entrega da declaração com valores zerados](https://www.gov.br/empresas-e-negocios/pt-br/empreendedor/perguntas-frequentes). Situações como baixa do CNPJ pedem atenção às regras próprias antes do envio.
 

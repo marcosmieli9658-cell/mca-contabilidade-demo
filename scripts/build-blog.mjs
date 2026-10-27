@@ -9,7 +9,15 @@ const contentDir = path.join(projectRoot, 'content');
 const blogDir = path.join(projectRoot, 'docs', 'blog');
 const markdown = new MarkdownIt({ html: false, linkify: false, typographer: true });
 const contactUrl = 'https://wa.me/5512991404535?text=Ol%C3%A1%21%20Conheci%20a%20MCA%20pelo%20site%20e%20gostaria%20de%20conversar%20sobre%20os%20servi%C3%A7os%20de%20contabilidade.';
-const preferredOrder = ['rotina-mensal-mei', 'das-e-dasn-simei', 'primeira-conversa-contabilidade'];
+const preferredOrder = [
+  'fluxo-de-caixa-pequeno-negocio',
+  'receita-despesas-lucro',
+  'nota-fiscal-mei',
+  'antes-de-abrir-empresa',
+  'rotina-mensal-mei',
+  'das-e-dasn-simei',
+  'primeira-conversa-contabilidade'
+];
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (character) => ({
@@ -195,6 +203,21 @@ function renderCard(post, href, headingLevel = 2, featured = false) {
   </article>`;
 }
 
+function renderHomeHighlights(home, posts) {
+  const start = '<!-- BLOG_CARDS_START -->';
+  const end = '<!-- BLOG_CARDS_END -->';
+  if (home.split(start).length !== 2 || home.split(end).length !== 2 || home.indexOf(start) > home.indexOf(end)) {
+    throw new Error('Marcadores dos destaques do blog ausentes ou duplicados em docs/index.html');
+  }
+  const eol = home.includes('\r\n') ? '\r\n' : '\n';
+  const cards = posts.slice(0, 3)
+    .map((post, index) => renderCard(post, `blog/${post.slug}/`, 3, index === 0))
+    .join('\n')
+    .split('\n').map((line) => `            ${line}`).join(eol);
+  return home.replace(/<!-- BLOG_CARDS_START -->[\s\S]*?<!-- BLOG_CARDS_END -->/,
+    `${start}${eol}${cards}${eol}            ${end}`);
+}
+
 function renderBlogIndex(posts) {
   const cards = posts.map((post, index) => renderCard(post, `${post.slug}/`, 2, index === 0)).join('\n');
   const main = `
@@ -269,6 +292,9 @@ function renderPost(post, posts) {
 }
 
 const posts = await loadPosts();
+const homePath = path.join(projectRoot, 'docs', 'index.html');
+const home = await fs.readFile(homePath, 'utf8');
+const updatedHome = renderHomeHighlights(home, posts);
 await fs.mkdir(blogDir, { recursive: true });
 await fs.writeFile(path.join(blogDir, 'index.html'), renderBlogIndex(posts), 'utf8');
 for (const post of posts) {
@@ -276,4 +302,5 @@ for (const post of posts) {
   await fs.mkdir(postDir, { recursive: true });
   await fs.writeFile(path.join(postDir, 'index.html'), renderPost(post, posts), 'utf8');
 }
+if (updatedHome !== home) await fs.writeFile(homePath, updatedHome, 'utf8');
 console.log(`Blog gerado: ${posts.length} artigos em docs/blog/`);
