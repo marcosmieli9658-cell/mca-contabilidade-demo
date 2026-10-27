@@ -7,10 +7,23 @@
     <meta name="robots" content="noindex, nofollow" />
     <meta name="description" content="Artigos práticos da prévia do blog MCA para MEIs e pequenos negócios." />
     <title>Conteúdos para MEIs e pequenos negócios | Blog MCA Contabilidade</title>
+    <link rel="canonical" href="https://marcosmieli9658-cell.github.io/mca-contabilidade-demo/blog/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="MCA Contabilidade &amp; Assessoria" />
+    <meta property="og:title" content="Conteúdos para MEIs e pequenos negócios | Blog MCA — Prévia" />
+    <meta property="og:description" content="Artigos práticos da prévia do blog MCA para MEIs e pequenos negócios. Conteúdo de demonstração para avaliação." />
+    <meta property="og:url" content="https://marcosmieli9658-cell.github.io/mca-contabilidade-demo/blog/" />
+    <meta property="og:image" content="https://marcosmieli9658-cell.github.io/mca-contabilidade-demo/assets/mca-share-v1.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="MCA Contabilidade &amp; Assessoria. Contabilidade clara. Seu negócio em movimento. Proposta de site." />
     <link rel="icon" type="image/png" href="../assets/favicon.png" />
-    <link rel="stylesheet" href="../styles.css?v=motion-2" />
-    <link rel="stylesheet" href="../blog.css?v=motion-2" />
-    <script src="../script.js?v=motion-2" defer></script>
+    <link rel="stylesheet" href="../styles.css?v=presentation-1" />
+    <link rel="stylesheet" href="../blog.css?v=presentation-1" />
+    <script src="../script.js?v=presentation-1" defer></script>
+    <script src="../blog-filters.js?v=presentation-1" defer></script>
   </head>
   <body class="blog-page">
 
@@ -48,21 +61,29 @@
         <div class="blog-hero__mark" aria-hidden="true"><span>M</span><span>C</span><span>A</span></div>
       </div>
     </section>
-    <section class="blog-listing section" aria-labelledby="articles-title">
+    <section class="blog-listing section" aria-labelledby="articles-title" data-blog-filtering>
       <div class="container">
         <div class="blog-listing__heading">
           <div><p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Leituras</p><h2 id="articles-title">Comece por aqui.</h2></div>
           <p>Artigos de demonstração preparados com fontes oficiais. O conteúdo ainda passará por revisão técnica da MCA.</p>
         </div>
-        <div class="blog-grid"><article class="blog-card blog-card--featured">
+        <div class="blog-filters" data-blog-filters hidden>
+          <p class="blog-filters__label" id="blog-filter-label">Explore por tema</p>
+          <div class="blog-filters__options" role="group" aria-labelledby="blog-filter-label"><button class="blog-filters__button" type="button" data-topic-filter="todos" aria-pressed="true" aria-controls="blog-articles"><span>Todos</span><span class="blog-filters__count" aria-hidden="true">7</span></button>
+<button class="blog-filters__button" type="button" data-topic-filter="mei" aria-pressed="false" aria-controls="blog-articles"><span>MEI</span><span class="blog-filters__count" aria-hidden="true">3</span></button>
+<button class="blog-filters__button" type="button" data-topic-filter="gestao-financeira" aria-pressed="false" aria-controls="blog-articles"><span>Gestão financeira</span><span class="blog-filters__count" aria-hidden="true">2</span></button>
+<button class="blog-filters__button" type="button" data-topic-filter="comecar-negocio" aria-pressed="false" aria-controls="blog-articles"><span>Começar um negócio</span><span class="blog-filters__count" aria-hidden="true">2</span></button></div>
+          <p class="blog-filters__status" data-filter-status role="status" aria-live="polite" aria-atomic="true">7 artigos para explorar.</p>
+        </div>
+        <div class="blog-grid" id="blog-articles" data-blog-articles><article class="blog-card blog-card--featured" data-topic="gestao-financeira">
     <a class="blog-card__link" href="fluxo-de-caixa-pequeno-negocio/">
-      <span class="blog-card__top"><span class="blog-card__category">Gestão do negócio</span><span class="blog-card__arrow" aria-hidden="true">↗</span></span>
+      <span class="blog-card__top"><span class="blog-card__category">Gestão financeira</span><span class="blog-card__arrow" aria-hidden="true">↗</span></span>
       <h2>Fluxo de caixa: um controle simples para saber o que entra e sai</h2>
       <p>Aprenda a registrar recebimentos, pagamentos e valores previstos para enxergar o dinheiro disponível no seu pequeno negócio.</p>
       <span class="blog-card__meta">4 min de leitura <span aria-hidden="true">·</span> 27 de outubro de 2026</span>
     </a>
   </article>
-<article class="blog-card">
+<article class="blog-card" data-topic="gestao-financeira">
     <a class="blog-card__link" href="receita-despesas-lucro/">
       <span class="blog-card__top"><span class="blog-card__category">Gestão financeira</span><span class="blog-card__arrow" aria-hidden="true">↗</span></span>
       <h2>Faturamento, despesas e lucro: três números que contam histórias diferentes</h2>
@@ -70,15 +91,15 @@
       <span class="blog-card__meta">5 min de leitura <span aria-hidden="true">·</span> 27 de outubro de 2026</span>
     </a>
   </article>
-<article class="blog-card">
+<article class="blog-card" data-topic="mei">
     <a class="blog-card__link" href="nota-fiscal-mei/">
-      <span class="blog-card__top"><span class="blog-card__category">Nota fiscal</span><span class="blog-card__arrow" aria-hidden="true">↗</span></span>
+      <span class="blog-card__top"><span class="blog-card__category">MEI</span><span class="blog-card__arrow" aria-hidden="true">↗</span></span>
       <h2>Nota fiscal do MEI: quando emitir e por onde começar?</h2>
       <p>Um guia inicial para distinguir vendas e serviços, identificar quando o cliente é pessoa física ou empresa e escolher o canal oficial de emissão.</p>
       <span class="blog-card__meta">5 min de leitura <span aria-hidden="true">·</span> 27 de outubro de 2026</span>
     </a>
   </article>
-<article class="blog-card">
+<article class="blog-card" data-topic="comecar-negocio">
     <a class="blog-card__link" href="antes-de-abrir-empresa/">
       <span class="blog-card__top"><span class="blog-card__category">Começar um negócio</span><span class="blog-card__arrow" aria-hidden="true">↗</span></span>
       <h2>Antes de abrir uma empresa: o que vale conferir?</h2>
@@ -86,23 +107,23 @@
       <span class="blog-card__meta">5 min de leitura <span aria-hidden="true">·</span> 27 de outubro de 2026</span>
     </a>
   </article>
-<article class="blog-card">
+<article class="blog-card" data-topic="mei">
     <a class="blog-card__link" href="rotina-mensal-mei/">
-      <span class="blog-card__top"><span class="blog-card__category">Rotina do MEI</span><span class="blog-card__arrow" aria-hidden="true">↗</span></span>
+      <span class="blog-card__top"><span class="blog-card__category">MEI</span><span class="blog-card__arrow" aria-hidden="true">↗</span></span>
       <h2>MEI: uma rotina mensal simples para organizar receitas e documentos</h2>
       <p>Um roteiro prático para reunir registros do mês, preencher o Relatório Mensal de Receitas Brutas e encontrar as informações quando precisar.</p>
       <span class="blog-card__meta">4 min de leitura <span aria-hidden="true">·</span> 27 de outubro de 2026</span>
     </a>
   </article>
-<article class="blog-card">
+<article class="blog-card" data-topic="mei">
     <a class="blog-card__link" href="das-e-dasn-simei/">
-      <span class="blog-card__top"><span class="blog-card__category">MEI na prática</span><span class="blog-card__arrow" aria-hidden="true">↗</span></span>
+      <span class="blog-card__top"><span class="blog-card__category">MEI</span><span class="blog-card__arrow" aria-hidden="true">↗</span></span>
       <h2>DAS e DASN-SIMEI: qual é a diferença?</h2>
       <p>Entenda o que o MEI paga pelo DAS, o que informa na DASN-SIMEI e como organizar as duas tarefas sem confundir guia com declaração.</p>
       <span class="blog-card__meta">4 min de leitura <span aria-hidden="true">·</span> 27 de outubro de 2026</span>
     </a>
   </article>
-<article class="blog-card">
+<article class="blog-card" data-topic="comecar-negocio">
     <a class="blog-card__link" href="primeira-conversa-contabilidade/">
       <span class="blog-card__top"><span class="blog-card__category">Começar um negócio</span><span class="blog-card__arrow" aria-hidden="true">↗</span></span>
       <h2>O que levar para a primeira conversa com a contabilidade?</h2>

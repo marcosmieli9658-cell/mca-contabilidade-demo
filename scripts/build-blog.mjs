@@ -8,7 +8,13 @@ const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 const contentDir = path.join(projectRoot, 'content');
 const blogDir = path.join(projectRoot, 'docs', 'blog');
 const markdown = new MarkdownIt({ html: false, linkify: false, typographer: true });
+const siteUrl = 'https://marcosmieli9658-cell.github.io/mca-contabilidade-demo/';
 const contactUrl = 'https://wa.me/5512991404535?text=Ol%C3%A1%21%20Conheci%20a%20MCA%20pelo%20site%20e%20gostaria%20de%20conversar%20sobre%20os%20servi%C3%A7os%20de%20contabilidade.';
+const blogTopics = [
+  { id: 'mei', label: 'MEI' },
+  { id: 'gestao-financeira', label: 'Gestão financeira' },
+  { id: 'comecar-negocio', label: 'Começar um negócio' }
+];
 const preferredOrder = [
   'fluxo-de-caixa-pequeno-negocio',
   'receita-despesas-lucro',
@@ -86,6 +92,10 @@ async function loadPosts() {
     const title = assertText(data.title, 'title', filename);
     const description = assertText(data.description, 'description', filename);
     const category = assertText(data.category, 'category', filename);
+    const topic = blogTopics.find((item) => item.label === category);
+    if (!topic) {
+      throw new Error(`${filename}: category deve ser ${blogTopics.map((item) => item.label).join(', ')}`);
+    }
     const updated = assertText(data.updated, 'updated', filename);
     const readingTime = assertText(data.readingTime, 'readingTime', filename);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(updated) || Number.isNaN(Date.parse(updated))) {
@@ -101,7 +111,7 @@ async function loadPosts() {
       return { title: sourceTitle, url };
     });
     const rendered = renderMarkdown(parsed.content, filename);
-    posts.push({ slug, title, description, category, updated, readingTime, sources, ...rendered });
+    posts.push({ slug, title, description, category, topic: topic.id, updated, readingTime, sources, ...rendered });
   }
 
   posts.sort((first, second) => {
@@ -168,7 +178,7 @@ function renderFooter(root) {
     </footer>`;
 }
 
-function renderDocument({ title, description, root, main }) {
+function renderDocument({ title, description, root, main, filters = false, pagePath = 'blog/', article = false }) {
   return `<!doctype html>
 <html lang="pt-BR">
   <head>
@@ -178,10 +188,23 @@ function renderDocument({ title, description, root, main }) {
     <meta name="robots" content="noindex, nofollow" />
     <meta name="description" content="${escapeHtml(description)}" />
     <title>${escapeHtml(title)} | Blog MCA Contabilidade</title>
+    <link rel="canonical" href="${siteUrl}${pagePath}" />
+    <meta property="og:type" content="${article ? 'article' : 'website'}" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="MCA Contabilidade &amp; Assessoria" />
+    <meta property="og:title" content="${escapeHtml(title)} | Blog MCA — Prévia" />
+    <meta property="og:description" content="${escapeHtml(description)} Conteúdo de demonstração para avaliação." />
+    <meta property="og:url" content="${siteUrl}${pagePath}" />
+    <meta property="og:image" content="${siteUrl}assets/mca-share-v1.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="MCA Contabilidade &amp; Assessoria. Contabilidade clara. Seu negócio em movimento. Proposta de site." />
     <link rel="icon" type="image/png" href="${root}assets/favicon.png" />
-    <link rel="stylesheet" href="${root}styles.css?v=motion-2" />
-    <link rel="stylesheet" href="${root}blog.css?v=motion-2" />
-    <script src="${root}script.js?v=motion-2" defer></script>
+    <link rel="stylesheet" href="${root}styles.css?v=presentation-1" />
+    <link rel="stylesheet" href="${root}blog.css?v=presentation-1" />
+    <script src="${root}script.js?v=presentation-1" defer></script>
+    ${filters ? `<script src="${root}blog-filters.js?v=presentation-1" defer></script>` : ''}
   </head>
   <body class="blog-page">
     ${renderHeader(root)}
@@ -193,7 +216,7 @@ function renderDocument({ title, description, root, main }) {
 }
 
 function renderCard(post, href, headingLevel = 2, featured = false) {
-  return `<article class="blog-card${featured ? ' blog-card--featured' : ''}">
+  return `<article class="blog-card${featured ? ' blog-card--featured' : ''}" data-topic="${post.topic}">
     <a class="blog-card__link" href="${href}">
       <span class="blog-card__top"><span class="blog-card__category">${escapeHtml(post.category)}</span><span class="blog-card__arrow" aria-hidden="true">↗</span></span>
       <h${headingLevel}>${escapeHtml(post.title)}</h${headingLevel}>
@@ -220,6 +243,10 @@ function renderHomeHighlights(home, posts) {
 
 function renderBlogIndex(posts) {
   const cards = posts.map((post, index) => renderCard(post, `${post.slug}/`, 2, index === 0)).join('\n');
+  const filters = [{ id: 'todos', label: 'Todos' }, ...blogTopics].map((topic) => {
+    const count = topic.id === 'todos' ? posts.length : posts.filter((post) => post.topic === topic.id).length;
+    return `<button class="blog-filters__button" type="button" data-topic-filter="${topic.id}" aria-pressed="${topic.id === 'todos'}" aria-controls="blog-articles"><span>${escapeHtml(topic.label)}</span><span class="blog-filters__count" aria-hidden="true">${count}</span></button>`;
+  }).join('\n');
   const main = `
     <section class="blog-hero" aria-labelledby="blog-title">
       <div class="container blog-hero__inner">
@@ -231,13 +258,18 @@ function renderBlogIndex(posts) {
         <div class="blog-hero__mark" aria-hidden="true"><span>M</span><span>C</span><span>A</span></div>
       </div>
     </section>
-    <section class="blog-listing section" aria-labelledby="articles-title">
+    <section class="blog-listing section" aria-labelledby="articles-title" data-blog-filtering>
       <div class="container">
         <div class="blog-listing__heading">
           <div><p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Leituras</p><h2 id="articles-title">Comece por aqui.</h2></div>
           <p>Artigos de demonstração preparados com fontes oficiais. O conteúdo ainda passará por revisão técnica da MCA.</p>
         </div>
-        <div class="blog-grid">${cards}</div>
+        <div class="blog-filters" data-blog-filters hidden>
+          <p class="blog-filters__label" id="blog-filter-label">Explore por tema</p>
+          <div class="blog-filters__options" role="group" aria-labelledby="blog-filter-label">${filters}</div>
+          <p class="blog-filters__status" data-filter-status role="status" aria-live="polite" aria-atomic="true">${posts.length} artigos para explorar.</p>
+        </div>
+        <div class="blog-grid" id="blog-articles" data-blog-articles>${cards}</div>
       </div>
     </section>
     <section class="blog-invite" aria-labelledby="blog-invite-title">
@@ -246,7 +278,7 @@ function renderBlogIndex(posts) {
         <a class="button button--primary" href="../#contato">Converse com a MCA <span aria-hidden="true">↗</span></a>
       </div>
     </section>`;
-  return renderDocument({ title: 'Conteúdos para MEIs e pequenos negócios', description: 'Artigos práticos da prévia do blog MCA para MEIs e pequenos negócios.', root: '../', main });
+  return renderDocument({ title: 'Conteúdos para MEIs e pequenos negócios', description: 'Artigos práticos da prévia do blog MCA para MEIs e pequenos negócios.', root: '../', main, filters: true });
 }
 
 function renderPost(post, posts) {
@@ -288,7 +320,7 @@ function renderPost(post, posts) {
         <div class="blog-grid">${related}</div>
       </div>
     </section>`;
-  return renderDocument({ title: post.title, description: post.description, root, main });
+  return renderDocument({ title: post.title, description: post.description, root, main, pagePath: `blog/${post.slug}/`, article: true });
 }
 
 const posts = await loadPosts();

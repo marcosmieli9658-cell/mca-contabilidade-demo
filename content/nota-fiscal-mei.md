@@ -1,7 +1,7 @@
 ---
 title: "Nota fiscal do MEI: quando emitir e por onde começar?"
 description: "Um guia inicial para distinguir vendas e serviços, identificar quando o cliente é pessoa física ou empresa e escolher o canal oficial de emissão."
-category: "Nota fiscal"
+category: "MEI"
 updated: "2026-10-27"
 readingTime: "5 min"
 sources:

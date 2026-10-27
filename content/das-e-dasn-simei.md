@@ -1,7 +1,7 @@
 ---
 title: "DAS e DASN-SIMEI: qual é a diferença?"
 description: "Entenda o que o MEI paga pelo DAS, o que informa na DASN-SIMEI e como organizar as duas tarefas sem confundir guia com declaração."
-category: "MEI na prática"
+category: "MEI"
 updated: "2026-10-27"
 readingTime: "4 min"
 sources:

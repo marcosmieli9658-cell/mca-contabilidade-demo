@@ -1,7 +1,7 @@
 ---
 title: "Fluxo de caixa: um controle simples para saber o que entra e sai"
 description: "Aprenda a registrar recebimentos, pagamentos e valores previstos para enxergar o dinheiro disponível no seu pequeno negócio."
-category: "Gestão do negócio"
+category: "Gestão financeira"
 updated: "2026-10-27"
 readingTime: "4 min"
 sources:

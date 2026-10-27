@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=1200" />
+    <title>Capa de compartilhamento — MCA</title>
+    <style>
+      @font-face { font-family: Manrope; font-weight: 600 700; src: url('../docs/assets/fonts/manrope-latin.woff2') format('woff2'); }
+      @font-face { font-family: Inter; font-weight: 400 600; src: url('../docs/assets/fonts/inter-latin.woff2') format('woff2'); }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+      body { position: relative; background: #4c4846; color: #fff; font-family: Inter, sans-serif; }
+      .logo { position: absolute; top: 36px; left: 52px; width: 300px; height: auto; }
+      .badge { position: absolute; top: 62px; right: 64px; padding: 13px 20px; border: 1px solid #797774; border-radius: 30px; font-size: 16px; font-weight: 600; letter-spacing: 1.4px; }
+      .badge::before { display: inline-block; width: 8px; height: 8px; margin-right: 12px; border-radius: 50%; background: #3f9ed8; content: ''; }
+      h1 { position: absolute; z-index: 1; top: 216px; left: 64px; margin: 0; font: 700 62px/1.12 Manrope, sans-serif; letter-spacing: -2.7px; }
+      h1 span { color: #54b1e7; }
+      .caption { position: absolute; left: 66px; bottom: 63px; margin: 0; font-size: 22px; color: #e0dedd; }
+      .caption::before { display: inline-block; width: 44px; height: 2px; margin: 0 16px 6px 0; background: #54b1e7; content: ''; }
+      .art { position: absolute; right: -75px; bottom: -70px; width: 575px; height: 560px; }
+      .edge { position: absolute; bottom: 0; left: 0; width: 100%; height: 7px; background: #3f9ed8; }
+    </style>
+  </head>
+  <body>
+    <img class="logo" src="../docs/assets/mca-logo.png" alt="MCA Contabilidade & Assessoria" />
+    <div class="badge">PROPOSTA DE SITE</div>
+    <h1>Contabilidade clara.<br /><span>Seu negócio em<br />movimento.</span></h1>
+    <p class="caption">Serviços, informação e proximidade.</p>
+    <svg class="art" viewBox="0 0 575 560" fill="none" aria-hidden="true">
+      <circle cx="325" cy="265" r="175" stroke="#6d797e" stroke-width="1" opacity=".6" />
+      <circle cx="325" cy="265" r="225" stroke="#6d797e" stroke-width="1" opacity=".35" />
+      <g stroke="#54b1e7" stroke-width="2.5" opacity=".8">
+        <path d="M-70 490C70 450 85 170 225 150C365 130 360 340 550 335" />
+        <path d="M-60 530C85 480 110 200 240 180C365 160 380 375 575 370" />
+        <path d="M-45 565C110 510 135 230 255 210C370 190 400 410 600 405" />
+        <path d="M-30 600C140 540 160 260 270 240C380 220 420 445 625 440" />
+      </g>
+    </svg>
+    <div class="edge"></div>
+  </body>
+</html>

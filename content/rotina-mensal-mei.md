@@ -1,7 +1,7 @@
 ---
 title: "MEI: uma rotina mensal simples para organizar receitas e documentos"
 description: "Um roteiro prático para reunir registros do mês, preencher o Relatório Mensal de Receitas Brutas e encontrar as informações quando precisar."
-category: "Rotina do MEI"
+category: "MEI"
 updated: "2026-10-27"
 readingTime: "4 min"
 sources:

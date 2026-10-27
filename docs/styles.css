@@ -904,6 +904,18 @@ h3 {
   letter-spacing: 0.05em;
 }
 
+.service-dialog__contact {
+  max-width: 100%;
+  margin-top: 1.6rem;
+  gap: 0.8rem;
+  white-space: normal;
+  text-align: left;
+}
+
+.service-dialog__contact > span {
+  flex-shrink: 0;
+}
+
 .service-dialog__note {
   margin: 1.4rem 0 0;
   color: var(--muted);
