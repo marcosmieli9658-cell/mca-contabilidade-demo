@@ -1,10 +1,25 @@
 # MCA Contabilidade & Assessoria — prévia do site
 
-Esta é uma demonstração para avaliação visual e de conteúdo. O site estático publicado no GitHub Pages sai da pasta [`docs/`](docs/). Não há formulário, coleta de dados ou integração de atendimento.
+Esta é uma demonstração para avaliação visual e de conteúdo. O site estático publicado no GitHub Pages sai da pasta [`docs/`](docs/). Não há formulário, coleta de dados ou integração de atendimento. A seção [`docs/blog/`](docs/blog/) reúne artigos de demonstração para MEIs e pequenos negócios, ainda sujeitos à revisão técnica da MCA.
 
 ## Prévia local
 
 Abra `docs/index.html` no navegador ou sirva a pasta `docs/` com qualquer servidor HTTP estático. Os caminhos dos arquivos são relativos para funcionar também na URL de projeto do GitHub Pages.
+
+## Atualizar o blog
+
+Os textos originais ficam em [`content/`](content/), um arquivo Markdown por artigo. Cada arquivo tem título, resumo, categoria, data de atualização, tempo estimado de leitura e links para fontes oficiais no bloco inicial. O nome do arquivo define a URL estável do artigo.
+
+Depois de editar ou acrescentar um artigo:
+
+```powershell
+npm ci
+npm run build:blog
+```
+
+Revise as páginas geradas em `docs/blog/` e publique os arquivos Markdown e HTML juntos. O GitHub Pages serve os HTMLs de `docs/`; ele não executa o gerador Node. A página inicial destaca três artigos escolhidos manualmente em `docs/index.html`.
+
+Antes de transformar a prévia em site definitivo, a MCA precisa aprovar o blog, indicar quem fará a revisão técnica dos artigos e definir como será a atualização das informações contábeis. As datas e fontes estão visíveis nos textos para facilitar essa revisão.
 
 ## Antes da versão definitiva
 
