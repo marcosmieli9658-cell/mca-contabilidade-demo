@@ -130,3 +130,55 @@ if (serviceTriggers.length && typeof HTMLDialogElement !== 'undefined' && typeof
     });
   }
 }
+
+const sweepCards = document.querySelectorAll('.service-card, .blog-card');
+if (sweepCards.length) {
+  const fineHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const cardMotionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let sweepEnabled = false;
+
+  function setSweepOrigin(card, clientX) {
+    const bounds = card.getBoundingClientRect();
+    const side = clientX < bounds.left + bounds.width / 2 ? 'left' : 'right';
+    card.style.setProperty('--card-sweep-origin', `${side} center`);
+  }
+
+  function enterCard(event) {
+    if (event.pointerType !== 'mouse') return;
+    const card = event.currentTarget;
+    setSweepOrigin(card, event.clientX);
+    card.classList.add('is-pointer-over');
+  }
+
+  function leaveCard(event) {
+    if (event.pointerType !== 'mouse') return;
+    const card = event.currentTarget;
+    setSweepOrigin(card, event.clientX);
+    card.classList.remove('is-pointer-over');
+  }
+
+  function resetCardSweeps() {
+    for (const card of sweepCards) {
+      card.classList.remove('is-pointer-over');
+      card.style.removeProperty('--card-sweep-origin');
+    }
+  }
+
+  function syncCardSweeps() {
+    const enabled = fineHover.matches && !cardMotionPreference.matches;
+    if (enabled === sweepEnabled) return;
+    sweepEnabled = enabled;
+    const action = enabled ? 'addEventListener' : 'removeEventListener';
+    for (const card of sweepCards) {
+      card[action]('pointerenter', enterCard);
+      card[action]('pointerleave', leaveCard);
+      card[action]('pointercancel', resetCardSweeps);
+    }
+    if (!enabled) resetCardSweeps();
+  }
+
+  fineHover.addEventListener('change', syncCardSweeps);
+  cardMotionPreference.addEventListener('change', syncCardSweeps);
+  window.addEventListener('blur', resetCardSweeps);
+  syncCardSweeps();
+}

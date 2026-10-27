@@ -12,9 +12,11 @@
     <title>MCA Contabilidade &amp; Assessoria | Prévia para avaliação</title>
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="preload" href="assets/mca-logo.png" as="image" />
-    <link rel="stylesheet" href="styles.css?v=motion-1" />
-    <link rel="stylesheet" href="blog.css?v=motion-1" />
-    <script src="script.js?v=motion-1" defer></script>
+    <link rel="stylesheet" href="styles.css?v=motion-2" />
+    <link rel="stylesheet" href="blog.css?v=motion-2" />
+    <link rel="stylesheet" href="scroll-motion.css?v=motion-2" />
+    <script src="script.js?v=motion-2" defer></script>
+    <script src="scroll-motion.js?v=motion-2" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
@@ -102,14 +104,14 @@
         </section>
 
       <section class="intro-strip" aria-label="Apresentação">
-        <div class="container intro-strip__inner">
+        <div class="container intro-strip__inner" data-scroll-reveal>
           <p>Organize a rotina da sua empresa e tenha mais clareza para decidir, com contabilidade e assessoria próximas de você.</p>
         </div>
       </section>
 
       <section class="services section" id="servicos" aria-labelledby="services-title">
         <div class="container">
-          <div class="section-heading">
+          <div class="section-heading" data-scroll-reveal>
             <div>
               <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Serviços</p>
               <h2 id="services-title">Conte com a MCA<br />em cada etapa.</h2>
@@ -117,7 +119,7 @@
             <p class="section-heading__summary">Da abertura à rotina do negócio, encontre o apoio contábil de que sua empresa precisa.</p>
           </div>
 
-          <div class="service-grid">
+          <div class="service-grid" data-scroll-group>
             <article class="service-card">
               <span class="service-card__number" aria-hidden="true">01</span>
               <div class="service-card__icon" aria-hidden="true">
@@ -178,13 +180,13 @@
 
       <section class="process section" id="como-funciona" aria-labelledby="process-title">
         <div class="container process__layout">
-          <div class="process__intro">
+          <div class="process__intro" data-scroll-reveal>
             <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Como funciona</p>
             <h2 id="process-title">O primeiro passo<br />é uma conversa.</h2>
             <p>Uma conversa simples ajuda a entender seu momento e o apoio de que sua empresa precisa.</p>
             <a class="button button--primary" href="https://wa.me/5512991404535?text=Ol%C3%A1%21%20Conheci%20a%20MCA%20pelo%20site%20e%20gostaria%20de%20conversar%20sobre%20os%20servi%C3%A7os%20de%20contabilidade.">Fale com a MCA <span aria-hidden="true">↗</span></a>
           </div>
-          <ol class="process-list">
+          <ol class="process-list" role="list" data-process-sequence>
             <li>
               <span class="process-list__number">01</span>
               <div><h3>Conte seu momento</h3><p>Você explica o que precisa e em que etapa está a sua empresa.</p></div>
@@ -203,14 +205,14 @@
 
       <section class="home-blog section" id="blog" aria-labelledby="home-blog-title">
         <div class="container">
-          <div class="home-blog__heading">
+          <div class="home-blog__heading" data-scroll-reveal>
             <div>
               <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Blog MCA</p>
               <h2 id="home-blog-title">Informação útil para a rotina do seu negócio.</h2>
             </div>
             <p>Leituras práticas para MEIs e pequenos negócios. Estes artigos fazem parte da prévia e ainda passarão por revisão técnica da MCA.</p>
           </div>
-          <div class="blog-grid">
+          <div class="blog-grid" data-scroll-group>
             <!-- BLOG_CARDS_START -->
             <article class="blog-card blog-card--featured">
                 <a class="blog-card__link" href="blog/fluxo-de-caixa-pequeno-negocio/">
@@ -238,20 +240,20 @@
               </article>
             <!-- BLOG_CARDS_END -->
           </div>
-          <div class="home-blog__footer"><a href="blog/">Explore todos os artigos <span aria-hidden="true">↗</span></a></div>
+          <div class="home-blog__footer" data-scroll-reveal><a href="blog/">Explore todos os artigos <span aria-hidden="true">↗</span></a></div>
         </div>
       </section>
 
       <section class="contact section" id="contato" aria-labelledby="contact-title">
         <div class="container">
           <div class="contact__top">
-            <div class="contact__intro">
+            <div class="contact__intro" data-scroll-reveal>
               <p class="eyebrow eyebrow--light"><span class="eyebrow__line" aria-hidden="true"></span>Contato</p>
               <h2 id="contact-title">Vamos falar sobre o próximo passo da sua empresa?</h2>
               <p>Conte o que você precisa. A MCA ajuda você a entender como começar.</p>
               <a class="button button--primary" href="https://wa.me/5512991404535?text=Ol%C3%A1%21%20Conheci%20a%20MCA%20pelo%20site%20e%20gostaria%20de%20conversar%20sobre%20os%20servi%C3%A7os%20de%20contabilidade.">Fale com a MCA <span aria-hidden="true">↗</span></a>
             </div>
-            <div class="contact__details" aria-label="Dados de contato">
+            <div class="contact__details" aria-label="Dados de contato" data-scroll-reveal>
               <div class="contact-detail">
                 <span class="contact-detail__label">Telefone</span>
                 <a href="tel:+5512991404535">(12) 99140-4535</a>

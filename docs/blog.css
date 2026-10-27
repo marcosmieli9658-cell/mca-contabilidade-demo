@@ -112,6 +112,8 @@
 }
 
 .blog-card {
+  position: relative;
+  isolation: isolate;
   min-width: 0;
   border: 1px solid var(--line);
   border-radius: 0.65rem;

@@ -179,9 +179,9 @@ function renderDocument({ title, description, root, main }) {
     <meta name="description" content="${escapeHtml(description)}" />
     <title>${escapeHtml(title)} | Blog MCA Contabilidade</title>
     <link rel="icon" type="image/png" href="${root}assets/favicon.png" />
-    <link rel="stylesheet" href="${root}styles.css?v=motion-1" />
-    <link rel="stylesheet" href="${root}blog.css?v=motion-1" />
-    <script src="${root}script.js?v=motion-1" defer></script>
+    <link rel="stylesheet" href="${root}styles.css?v=motion-2" />
+    <link rel="stylesheet" href="${root}blog.css?v=motion-2" />
+    <script src="${root}script.js?v=motion-2" defer></script>
   </head>
   <body class="blog-page">
     ${renderHeader(root)}
