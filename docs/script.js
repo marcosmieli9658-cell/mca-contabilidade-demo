@@ -52,27 +52,80 @@ mobileViewport.addEventListener('change', () => {
 const serviceTriggers = document.querySelectorAll('.service-card__trigger');
 if (serviceTriggers.length && typeof HTMLDialogElement !== 'undefined' && typeof HTMLDialogElement.prototype.showModal === 'function') {
   document.documentElement.classList.add('dialog-ready');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   for (const trigger of serviceTriggers) {
     const dialog = document.getElementById(trigger.getAttribute('aria-controls'));
     const closeButton = dialog?.querySelector('.service-dialog__close');
     if (!dialog || !closeButton) continue;
 
+    let closing = false;
+    let closeTimeout;
+
+    function clearClosingState() {
+      window.clearTimeout(closeTimeout);
+      closeTimeout = undefined;
+      dialog.removeEventListener('animationend', handleExitAnimation);
+      reducedMotion.removeEventListener('change', handleMotionChange);
+      dialog.classList.remove('is-closing');
+      closing = false;
+    }
+
+    function finishClose() {
+      clearClosingState();
+      if (dialog.open) dialog.close();
+    }
+
+    function handleExitAnimation(event) {
+      if (event.target === dialog && event.animationName === 'service-dialog-out') {
+        finishClose();
+      }
+    }
+
+    function handleMotionChange() {
+      if (reducedMotion.matches) finishClose();
+    }
+
+    function requestClose() {
+      if (!dialog.open || closing) return;
+      if (reducedMotion.matches) {
+        finishClose();
+        return;
+      }
+
+      closing = true;
+      dialog.addEventListener('animationend', handleExitAnimation);
+      reducedMotion.addEventListener('change', handleMotionChange);
+      dialog.classList.add('is-closing');
+      // Complete the 180 ms exit even if CSS is unavailable or its event is interrupted.
+      closeTimeout = window.setTimeout(finishClose, 280);
+    }
+
     trigger.addEventListener('click', () => {
+      if (dialog.open) return;
+      clearClosingState();
       if (isMenuOpen()) setMenuOpen(false);
       dialog.showModal();
       document.documentElement.classList.add('service-dialog-open');
       closeButton.focus();
     });
 
-    closeButton.addEventListener('click', () => dialog.close());
+    closeButton.addEventListener('click', requestClose);
 
     dialog.addEventListener('click', (event) => {
-      if (event.target === dialog) dialog.close();
+      if (event.target === dialog) requestClose();
+    });
+
+    dialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      requestClose();
     });
 
     dialog.addEventListener('close', () => {
-      document.documentElement.classList.remove('service-dialog-open');
+      clearClosingState();
+      if (!document.querySelector('.service-dialog[open]')) {
+        document.documentElement.classList.remove('service-dialog-open');
+      }
       trigger.focus();
     });
   }
