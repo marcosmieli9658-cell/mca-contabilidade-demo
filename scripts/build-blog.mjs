@@ -172,7 +172,7 @@ function renderFooter(root) {
         <div class="blog-site-footer__contact">
           <span>Contato</span>
           <a href="tel:+5512991404535">(12) 99140-4535</a>
-          <p>Rua Narizinho Arrebitado, 540<br />Gurilândia, Taubaté - SP</p>
+          <p>Rua Narizinho Arrebitado, 480<br />Gurilândia, Taubaté - SP</p>
         </div>
       </div>
     </footer>`;
