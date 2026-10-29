@@ -623,6 +623,13 @@
   background: var(--tint);
 }
 
+.article-takeaways { margin-bottom: 2rem; padding: 1.6rem; border: 1px solid #c7d6e0; border-radius: 0.8rem; background: #f3f8fb; }
+.article-takeaways h2 { margin: 0 0 0.8rem; font-size: 1.4rem; letter-spacing: -0.025em; }
+.article-takeaways p { margin: 0 0 1rem; }
+.article-takeaways ul { margin: 0; padding-left: 1.2rem; }
+.article-takeaways li + li { margin-top: 0.55rem; }
+.article-related .blog-card p.blog-card__context { display: block; margin-top: 0.75rem; font-size: 0.82rem; }
+
 .article-invite h2 {
   max-width: 25ch;
   margin: 0 0 1rem;

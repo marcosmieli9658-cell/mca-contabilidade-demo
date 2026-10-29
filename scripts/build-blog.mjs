@@ -24,15 +24,6 @@ const preferredOrder = [
   'das-e-dasn-simei',
   'primeira-conversa-contabilidade'
 ];
-const relatedOrder = {
-  'fluxo-de-caixa-pequeno-negocio': ['receita-despesas-lucro', 'primeira-conversa-contabilidade'],
-  'receita-despesas-lucro': ['fluxo-de-caixa-pequeno-negocio', 'primeira-conversa-contabilidade'],
-  'nota-fiscal-mei': ['rotina-mensal-mei', 'das-e-dasn-simei'],
-  'rotina-mensal-mei': ['nota-fiscal-mei', 'das-e-dasn-simei'],
-  'das-e-dasn-simei': ['rotina-mensal-mei', 'nota-fiscal-mei'],
-  'antes-de-abrir-empresa': ['primeira-conversa-contabilidade', 'fluxo-de-caixa-pequeno-negocio'],
-  'primeira-conversa-contabilidade': ['antes-de-abrir-empresa', 'rotina-mensal-mei']
-};
 const topicInvites = {
   mei: {
     subject: 'MEI',
@@ -156,6 +147,38 @@ async function loadPosts() {
   return posts;
 }
 
+async function loadReadingGuides(posts) {
+  const filename = 'reading-guides.json';
+  const guides = JSON.parse(await fs.readFile(path.join(contentDir, filename), 'utf8'));
+  const knownSlugs = new Set(posts.map((post) => post.slug));
+
+  for (const [slug, guide] of Object.entries(guides)) {
+    if (!knownSlugs.has(slug)) throw new Error(`${filename}: artigo desconhecido ${slug}`);
+    if (guide.summary !== undefined) {
+      assertText(guide.summary, `${slug}.summary`, filename);
+      if (!Array.isArray(guide.points) || !guide.points.length || guide.points.length > 3) {
+        throw new Error(`${filename}: ${slug}.points deve conter de 1 a 3 itens`);
+      }
+      guide.points.forEach((point) => assertText(point, `${slug}.points`, filename));
+    } else if (guide.points !== undefined) {
+      throw new Error(`${filename}: ${slug}.points precisa de um resumo`);
+    }
+    if (!Array.isArray(guide.related) || guide.related.length > 2) {
+      throw new Error(`${filename}: ${slug}.related deve conter até 2 artigos`);
+    }
+    const linkedSlugs = new Set();
+    for (const related of guide.related) {
+      if (!knownSlugs.has(related.slug) || related.slug === slug || linkedSlugs.has(related.slug)) {
+        throw new Error(`${filename}: vínculo inválido em ${slug}.related`);
+      }
+      assertText(related.context, `${slug}.related.context`, filename);
+      linkedSlugs.add(related.slug);
+    }
+  }
+
+  return guides;
+}
+
 function renderHeader(root) {
   return `
     <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
@@ -202,7 +225,8 @@ function renderFooter(root) {
         </nav>
         <div class="blog-site-footer__contact">
           <span>Contato</span>
-          <a href="tel:+5512991404535">(12) 99140-4535</a>
+          <a class="whatsapp-number" href="${contactUrl}" target="_blank" rel="noopener noreferrer" aria-label="Conversar com a MCA pelo WhatsApp"><img src="${root}assets/whatsapp.svg" width="24" height="24" alt="" /> (12) 99140-4535</a>
+          <a class="phone-call" href="tel:+5512991404535">Ligar</a>
           <p>Rua Narizinho Arrebitado, 480<br />Gurilândia, Taubaté - SP</p>
         </div>
       </div>
@@ -233,10 +257,10 @@ function renderDocument({ title, description, root, main, filters = false, pageP
     <meta property="og:image:alt" content="MCA Contabilidade &amp; Assessoria. Contabilidade clara. Seu negócio em movimento. Proposta de site." />
     <link rel="icon" type="image/png" href="${root}assets/favicon.png" />
     ${renderStructuredData(structuredData)}
-    <link rel="stylesheet" href="${root}styles.css?v=schema-1" />
-    <link rel="stylesheet" href="${root}blog.css?v=schema-1" />
-    <script src="${root}script.js?v=schema-1" defer></script>
-    ${filters ? `<script src="${root}blog-filters.js?v=schema-1" defer></script>` : ''}
+    <link rel="stylesheet" href="${root}styles.css?v=local-1" />
+    <link rel="stylesheet" href="${root}blog.css?v=local-1" />
+    <script src="${root}script.js?v=local-1" defer></script>
+    ${filters ? `<script src="${root}blog-filters.js?v=local-1" defer></script>` : ''}
   </head>
   <body class="blog-page">
     ${renderHeader(root)}
@@ -247,11 +271,12 @@ function renderDocument({ title, description, root, main, filters = false, pageP
 `.replace(/^[ \t]+$/gm, '');
 }
 
-function renderCard(post, href, { headingLevel = 2, featured = false, root = '../' } = {}) {
+function renderCard(post, href, { headingLevel = 2, featured = false, root = '../', context = '' } = {}) {
   return `<article class="blog-card${featured ? ' blog-card--featured' : ''}" data-topic="${post.topic}">
     <a class="blog-card__link" href="${href}">
       <span class="blog-card__cover"><img src="${root}assets/blog-${post.topic}.svg" width="720" height="480" alt="" loading="lazy" decoding="async" /></span>
-      <div class="blog-card__body">
+      <div class="blog-card__body">${context ? `
+        <p class="blog-card__context">${escapeHtml(context)}</p>` : ''}
         <h${headingLevel}>${escapeHtml(post.title)}</h${headingLevel}>
         <p>${escapeHtml(post.description)}</p>
         <span class="blog-card__meta"><span class="blog-card__category">${escapeHtml(post.category)}</span><span>${escapeHtml(post.readingTime)} de leitura</span><time datetime="${post.updated}">${escapeHtml(displayDate(post.updated))}</time></span>
@@ -318,19 +343,29 @@ function renderBlogIndex(posts) {
   return renderDocument({ title: 'Conteúdos para MEIs e pequenos negócios', description: 'Artigos práticos da prévia do blog MCA para MEIs e pequenos negócios.', root: '../', main, filters: true, structuredData: { type: 'blog', posts } });
 }
 
-function renderPost(post, posts) {
+function renderPost(post, posts, guides) {
   const root = '../../';
   const toc = post.headings.length ? `<nav class="article-toc" aria-label="Nesta página">
     <strong>Neste artigo</strong><ol>${post.headings.map((heading) => `<li><a href="#${heading.id}">${escapeHtml(heading.label)}</a></li>`).join('')}</ol>
   </nav>` : '';
   const sources = post.sources.map((source, index) => `<li><span>${String(index + 1).padStart(2, '0')}</span><a href="${escapeHtml(source.url)}">${escapeHtml(source.title)} <span aria-hidden="true">↗</span></a></li>`).join('');
-  const priority = relatedOrder[post.slug] || [];
+  const guide = guides[post.slug];
+  const takeaways = guide?.summary ? `<section class="article-takeaways" aria-labelledby="takeaways-title">
+    <h2 id="takeaways-title">Em poucas palavras</h2>
+    <p>${escapeHtml(guide.summary)}</p>
+    <ul>${guide.points.map((point) => `<li>${escapeHtml(point)}</li>`).join('')}</ul>
+  </section>` : '';
+  const priority = guide?.related.map((related) => related.slug) || [];
   const relatedPosts = priority.map((slug) => posts.find((candidate) => candidate.slug === slug)).filter(Boolean);
   for (const candidate of posts.filter((item) => item.topic === post.topic)) {
     if (candidate.slug !== post.slug && !relatedPosts.includes(candidate)) relatedPosts.push(candidate);
   }
   const related = relatedPosts.slice(0, 2)
-    .map((candidate) => renderCard(candidate, `../${candidate.slug}/`, { headingLevel: 3, root })).join('\n');
+    .map((candidate) => renderCard(candidate, `../${candidate.slug}/`, {
+      headingLevel: 3,
+      root,
+      context: guide?.related.find((related) => related.slug === candidate.slug)?.context
+    })).join('\n');
   const invite = topicInvites[post.topic];
   const articleContactUrl = `https://wa.me/5512991404535?text=${encodeURIComponent(`Olá! Li um artigo do Blog MCA sobre ${invite.subject} e gostaria de conhecer o apoio para meu negócio.`)}`;
   const main = `
@@ -347,6 +382,7 @@ function renderPost(post, posts) {
       </header>
       <div class="article-container article-main">
         <div class="article-review"><p><strong>Conteúdo de demonstração.</strong> Este texto está em avaliação e será revisado tecnicamente pela MCA antes da versão definitiva.</p></div>
+        ${takeaways}
         ${toc}
         <div class="article-prose">${post.body}</div>
         <section class="article-sources" aria-labelledby="sources-title">
@@ -371,6 +407,7 @@ function renderPost(post, posts) {
 }
 
 const posts = await loadPosts();
+const guides = await loadReadingGuides(posts);
 const homePath = path.join(projectRoot, 'docs', 'index.html');
 const home = await fs.readFile(homePath, 'utf8');
 const schemaStart = '<!-- STRUCTURED_DATA_START -->';
@@ -387,7 +424,7 @@ await fs.writeFile(path.join(blogDir, 'index.html'), renderBlogIndex(posts), 'ut
 for (const post of posts) {
   const postDir = path.join(blogDir, post.slug);
   await fs.mkdir(postDir, { recursive: true });
-  await fs.writeFile(path.join(postDir, 'index.html'), renderPost(post, posts), 'utf8');
+  await fs.writeFile(path.join(postDir, 'index.html'), renderPost(post, posts, guides), 'utf8');
 }
 if (updatedHome !== home) await fs.writeFile(homePath, updatedHome, 'utf8');
 console.log(`Blog gerado: ${posts.length} artigos em docs/blog/`);

@@ -13,6 +13,7 @@ function business() {
     '@type': 'AccountingService', '@id': businessId,
     name: businessName, url: siteUrl,
     logo: `${siteUrl}assets/mca-logo.png`, telephone: '+5512991404535',
+    hasMap: 'https://www.google.com/maps/search/?api=1&query=R.%20Narizinho%2C%20480%20-%20Jardim%20Guril%C3%A2ndia%2C%20Taubat%C3%A9%20-%20SP%2C%2012071-400',
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'Rua Narizinho Arrebitado, 480, Gurilândia',
@@ -96,8 +97,8 @@ export function renderStructuredData({ type, post, posts = [] }) {
   const graph = [business(), website()];
   if (type === 'home') {
     graph.push(page({
-      url: siteUrl, name: `${businessName} | Prévia para avaliação`,
-      description: 'Conheça a proposta de site da MCA Contabilidade & Assessoria, em Taubaté - SP. Uma prévia para avaliação dos serviços, atendimento e contato.',
+      url: siteUrl, name: `Contabilidade em Taubaté | ${businessName}`,
+      description: 'Contabilidade em Taubaté para cada etapa da sua empresa. Apoio para abrir sua empresa, organizar a rotina contábil e entender como tratar pendências.',
       mainEntity: ref(businessId)
     }));
   } else if (type === 'blog') {

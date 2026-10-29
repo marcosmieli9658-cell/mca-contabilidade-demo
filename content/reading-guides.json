@@ -1,0 +1,80 @@
+{
+  "fluxo-de-caixa-pequeno-negocio": {
+    "summary": "O fluxo de caixa organiza recebimentos e pagamentos por data para mostrar o dinheiro disponível e o saldo previsto. O controle acompanha a movimentação de dinheiro; não substitui o registro das vendas nem a apuração do lucro.",
+    "points": [
+      "Registre o saldo inicial, cada entrada e cada saída de dinheiro.",
+      "Separe os movimentos realizados dos recebimentos e pagamentos previstos.",
+      "Confira o saldo calculado com o caixa e as contas usadas pelo negócio."
+    ],
+    "related": [
+      { "slug": "receita-despesas-lucro", "context": "Para entender por que saldo disponível e lucro são números diferentes." },
+      { "slug": "primeira-conversa-contabilidade", "context": "Para transformar diferenças nos seus registros em perguntas para a contabilidade." }
+    ]
+  },
+  "receita-despesas-lucro": {
+    "summary": "Faturamento é o valor das vendas e dos serviços antes dos gastos. Custos e despesas mostram o que a operação consome; o resultado gerencial simplificado compara receitas com os gastos do período. O saldo disponível também depende de quando cada valor é recebido ou pago.",
+    "points": [
+      "Registre a receita bruta separadamente dos gastos do negócio.",
+      "No Relatório Mensal do MEI, informe o faturamento bruto, não apenas o lucro.",
+      "Compare faturamento, resultado estimado e saldo disponível antes de decidir."
+    ],
+    "related": [
+      { "slug": "fluxo-de-caixa-pequeno-negocio", "context": "Para acompanhar quando o dinheiro entra, sai e fica disponível." },
+      { "slug": "primeira-conversa-contabilidade", "context": "Para organizar documentos e dúvidas quando os números não fecham." }
+    ]
+  },
+  "nota-fiscal-mei": {
+    "summary": "Antes de emitir uma nota como MEI, identifique o cliente, a operação e o canal oficial: NFS-e de padrão nacional para serviços e orientação da Secretaria da Fazenda estadual para mercadorias. A exigência e o documento aplicável devem ser conferidos para o caso concreto.",
+    "points": [
+      "Descreva se a operação é venda de produto ou prestação de serviço e quem é o destinatário.",
+      "Confira os dados do cliente, a descrição, a data e o valor antes de emitir.",
+      "Guarde os documentos fiscais por mês e mantenha o registro da receita."
+    ],
+    "related": [
+      { "slug": "rotina-mensal-mei", "context": "Para arquivar as notas junto dos registros e documentos de cada mês." },
+      { "slug": "das-e-dasn-simei", "context": "Para distinguir a emissão fiscal da guia mensal e da declaração anual." }
+    ]
+  },
+  "antes-de-abrir-empresa": {
+    "summary": "Antes de abrir uma empresa, descreva as atividades, confira a viabilidade do endereço e separe as decisões sobre tipo jurídico, porte e regime tributário. O registro e o CNPJ não encerram necessariamente as exigências para funcionar; as licenças dependem da atividade e do local.",
+    "points": [
+      "Descreva o que vai vender ou fazer, para quem e por quais canais.",
+      "Confira a viabilidade antes de comprar ou alugar o imóvel pretendido.",
+      "Reúna estimativas de receita e dúvidas sobre sócios, licenças e tributação."
+    ],
+    "related": [
+      { "slug": "primeira-conversa-contabilidade", "context": "Para levar as informações da ideia e as decisões pendentes à primeira conversa." },
+      { "slug": "fluxo-de-caixa-pequeno-negocio", "context": "Para começar a organizar recebimentos e pagamentos do novo negócio." }
+    ]
+  },
+  "rotina-mensal-mei": {
+    "summary": "A rotina mensal do MEI pode reunir, na mesma pasta do período, os registros de vendas e serviços, documentos de compras, Relatório Mensal de Receitas Brutas, guia DAS e comprovante. O relatório registra receita bruta e fica arquivado; ele é diferente da declaração anual.",
+    "points": [
+      "Reúna notas emitidas e registros das vendas e dos serviços do mês.",
+      "Preencha o modelo oficial do relatório conforme a atividade do MEI.",
+      "Guarde documentos de entrada, guia DAS e comprovante de pagamento."
+    ],
+    "related": [
+      { "slug": "nota-fiscal-mei", "context": "Para conferir o caminho de emissão dos documentos que entram na pasta do mês." },
+      { "slug": "das-e-dasn-simei", "context": "Para separar as tarefas mensais da declaração anual de faturamento." }
+    ]
+  },
+  "das-e-dasn-simei": {
+    "related": [
+      { "slug": "rotina-mensal-mei", "context": "Para reunir mês a mês as informações usadas na declaração anual." },
+      { "slug": "nota-fiscal-mei", "context": "Para entender por que a emissão de nota precisa de uma conferência própria." }
+    ]
+  },
+  "primeira-conversa-contabilidade": {
+    "summary": "Para a primeira conversa com a contabilidade, leve uma descrição do negócio, sua etapa atual e a dúvida principal. Se já opera, separe exemplos recentes de notas e comprovantes, além de comunicações que não entendeu. Esse preparo ajuda a conversa e não é uma lista de documentos obrigatórios.",
+    "points": [
+      "Anote atividade, forma de atendimento, local e perfil dos clientes.",
+      "Se ainda vai começar, reúna estimativas de vendas e despesas e suas perguntas.",
+      "Se já tem negócio, localize o CNPJ ou CCMEI e exemplos dos registros disponíveis."
+    ],
+    "related": [
+      { "slug": "antes-de-abrir-empresa", "context": "Para conferir atividade, endereço e decisões antes de iniciar o registro." },
+      { "slug": "rotina-mensal-mei", "context": "Para organizar os registros de um MEI que já está em funcionamento." }
+    ]
+  }
+}
