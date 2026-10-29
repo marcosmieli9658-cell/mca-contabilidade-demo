@@ -29,6 +29,8 @@ O comando `npm run build:blog` também gera JSON-LD na página inicial, no índi
 
 Autoria, revisão técnica, data original de publicação, avaliações e identificadores profissionais não foram acrescentados sem confirmação. A prévia continua com `noindex, nofollow`; dados estruturados não liberam sua indexação nem garantem destaque no Google.
 
+As datas de atualização continuam visíveis nos artigos. Como a fonte editorial registra somente o dia, o JSON-LD não declara `dateModified`: o Google espera data e hora nesse campo. Acrescente-o apenas quando houver um horário editorial comprovado, sem usar horários de commits ou presumir meia-noite.
+
 O campo `hasMap` aponta para uma busca do endereço informado no Google Maps. Ele não identifica nem comprova um Perfil da Empresa verificado.
 
 ## Antes da versão definitiva

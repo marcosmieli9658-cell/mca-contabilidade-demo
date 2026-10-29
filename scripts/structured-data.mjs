@@ -59,7 +59,7 @@ function posting(post, full = false) {
     '@type': 'BlogPosting', '@id': `${url}#article`, url,
     headline: post.title, description: post.description,
     articleSection: post.category, inLanguage: 'pt-BR',
-    dateModified: post.updated, isPartOf: ref(blogId),
+    isPartOf: ref(blogId),
     creativeWorkStatus: previewStatus
   };
   if (full) {
@@ -68,6 +68,8 @@ function posting(post, full = false) {
       '@type': 'CreativeWork', name: source.title, url: source.url
     }));
   }
+  // The visible calendar date is retained in HTML. Google expects a full DateTime
+  // here; omit dateModified rather than invent an editorial time or timezone.
   // No author, publication date, review or article image is asserted without evidence.
   return article;
 }
