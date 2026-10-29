@@ -3,12 +3,12 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 import MarkdownIt from 'markdown-it';
+import { renderStructuredData, siteUrl } from './structured-data.mjs';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const contentDir = path.join(projectRoot, 'content');
 const blogDir = path.join(projectRoot, 'docs', 'blog');
 const markdown = new MarkdownIt({ html: false, linkify: false, typographer: true });
-const siteUrl = 'https://marcosmieli9658-cell.github.io/mca-contabilidade-demo/';
 const contactUrl = 'https://wa.me/5512991404535?text=Ol%C3%A1%21%20Conheci%20a%20MCA%20pelo%20site%20e%20gostaria%20de%20conversar%20sobre%20os%20servi%C3%A7os%20de%20contabilidade.';
 const blogTopics = [
   { id: 'mei', label: 'MEI' },
@@ -209,7 +209,7 @@ function renderFooter(root) {
     </footer>`;
 }
 
-function renderDocument({ title, description, root, main, filters = false, pagePath = 'blog/', article = false }) {
+function renderDocument({ title, description, root, main, filters = false, pagePath = 'blog/', article = false, structuredData }) {
   return `<!doctype html>
 <html lang="pt-BR">
   <head>
@@ -232,10 +232,11 @@ function renderDocument({ title, description, root, main, filters = false, pageP
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="MCA Contabilidade &amp; Assessoria. Contabilidade clara. Seu negócio em movimento. Proposta de site." />
     <link rel="icon" type="image/png" href="${root}assets/favicon.png" />
-    <link rel="stylesheet" href="${root}styles.css?v=redesign-1" />
-    <link rel="stylesheet" href="${root}blog.css?v=redesign-1" />
-    <script src="${root}script.js?v=redesign-1" defer></script>
-    ${filters ? `<script src="${root}blog-filters.js?v=redesign-1" defer></script>` : ''}
+    ${renderStructuredData(structuredData)}
+    <link rel="stylesheet" href="${root}styles.css?v=schema-1" />
+    <link rel="stylesheet" href="${root}blog.css?v=schema-1" />
+    <script src="${root}script.js?v=schema-1" defer></script>
+    ${filters ? `<script src="${root}blog-filters.js?v=schema-1" defer></script>` : ''}
   </head>
   <body class="blog-page">
     ${renderHeader(root)}
@@ -314,7 +315,7 @@ function renderBlogIndex(posts) {
         <a class="button button--primary" href="../#contato">Converse com a MCA ${arrow}</a>
       </div>
     </section>`;
-  return renderDocument({ title: 'Conteúdos para MEIs e pequenos negócios', description: 'Artigos práticos da prévia do blog MCA para MEIs e pequenos negócios.', root: '../', main, filters: true });
+  return renderDocument({ title: 'Conteúdos para MEIs e pequenos negócios', description: 'Artigos práticos da prévia do blog MCA para MEIs e pequenos negócios.', root: '../', main, filters: true, structuredData: { type: 'blog', posts } });
 }
 
 function renderPost(post, posts) {
@@ -334,7 +335,7 @@ function renderPost(post, posts) {
   const articleContactUrl = `https://wa.me/5512991404535?text=${encodeURIComponent(`Olá! Li um artigo do Blog MCA sobre ${invite.subject} e gostaria de conhecer o apoio para meu negócio.`)}`;
   const main = `
     <nav class="article-breadcrumb container" aria-label="Caminho de navegação">
-      <a href="../../">Início</a><span aria-hidden="true">/</span><a href="../">Blog</a><span aria-hidden="true">/</span><span>${escapeHtml(post.category)}</span>
+      <a href="../../">Início</a><span aria-hidden="true">/</span><a href="../">Blog</a><span aria-hidden="true">/</span><span aria-current="page">${escapeHtml(post.title)}</span>
     </nav>
     <article>
       <header class="article-header">
@@ -366,13 +367,21 @@ function renderPost(post, posts) {
         <div class="blog-grid">${related}</div>
       </div>
     </section>`;
-  return renderDocument({ title: post.title, description: post.description, root, main, pagePath: `blog/${post.slug}/`, article: true });
+  return renderDocument({ title: post.title, description: post.description, root, main, pagePath: `blog/${post.slug}/`, article: true, structuredData: { type: 'post', post } });
 }
 
 const posts = await loadPosts();
 const homePath = path.join(projectRoot, 'docs', 'index.html');
 const home = await fs.readFile(homePath, 'utf8');
-const updatedHome = renderHomeHighlights(home, posts);
+const schemaStart = '<!-- STRUCTURED_DATA_START -->';
+const schemaEnd = '<!-- STRUCTURED_DATA_END -->';
+if (home.split(schemaStart).length !== 2 || home.split(schemaEnd).length !== 2) {
+  throw new Error('Marcadores de dados estruturados ausentes ou duplicados em docs/index.html');
+}
+const updatedHome = renderHomeHighlights(home, posts).replace(
+  /<!-- STRUCTURED_DATA_START -->[\s\S]*?<!-- STRUCTURED_DATA_END -->/,
+  `${schemaStart}\n    ${renderStructuredData({ type: 'home' })}\n    ${schemaEnd}`
+);
 await fs.mkdir(blogDir, { recursive: true });
 await fs.writeFile(path.join(blogDir, 'index.html'), renderBlogIndex(posts), 'utf8');
 for (const post of posts) {

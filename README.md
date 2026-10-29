@@ -17,9 +17,15 @@ npm ci
 npm run build:blog
 ```
 
-Revise as páginas geradas em `docs/blog/` e publique os arquivos Markdown e HTML juntos. O GitHub Pages serve os HTMLs de `docs/`; ele não executa o gerador Node. A lista `preferredOrder` em `scripts/build-blog.mjs` define a ordem editorial; os três primeiros artigos aparecem também como destaque na página inicial.
+Revise as páginas geradas em `docs/blog/` e publique os arquivos Markdown e HTML juntos. O GitHub Pages serve os HTMLs de `docs/`; ele não executa o gerador Node. A lista `preferredOrder` em `scripts/build-blog.mjs` define a ordem editorial; a página inicial destaca o primeiro artigo de cada tema.
 
 Antes de transformar a prévia em site definitivo, a MCA precisa aprovar o blog, indicar quem fará a revisão técnica dos artigos e definir como será a atualização das informações contábeis. As datas e fontes estão visíveis nos textos para facilitar essa revisão.
+
+## Dados estruturados
+
+O comando `npm run build:blog` também gera JSON-LD na página inicial, no índice e nos artigos. O módulo `scripts/structured-data.mjs` reúne os dados informados da empresa e usa os metadados dos artigos para produzir `AccountingService`, `WebSite`, `Blog`, `BlogPosting` e trilhas de navegação. Atualize esse módulo quando os dados empresariais mudarem e confira sua correspondência com o conteúdo visível.
+
+Autoria, revisão técnica, data original de publicação, avaliações e identificadores profissionais não foram acrescentados sem confirmação. A prévia continua com `noindex, nofollow`; dados estruturados não liberam sua indexação nem garantem destaque no Google.
 
 ## Antes da versão definitiva
 
