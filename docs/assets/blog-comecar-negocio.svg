@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" fill="none">
+  <rect width="720" height="480" fill="#DCECF5"/>
+  <path d="M72 87h576M72 393h576" stroke="#B1CFDF"/>
+  <path d="M152 241h416" stroke="#9ABED3" stroke-width="2"/>
+  <circle cx="152" cy="241" r="58" fill="#FFF"/>
+  <circle cx="360" cy="241" r="58" fill="#FFF"/>
+  <circle cx="568" cy="241" r="58" fill="#17658F"/>
+  <path d="M132 222h40v38h-40zM143 222v38M132 234h40" stroke="#17658F" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M360 266s19-18 19-34a19 19 0 0 0-38 0c0 16 19 34 19 34Z" stroke="#17658F" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="360" cy="231" r="6" stroke="#17658F" stroke-width="2.5"/>
+  <path d="m549 241 13 13 25-27" stroke="#FFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m248 234 7 7-7 7m208-14 7 7-7 7" stroke="#17658F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#17658F" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="20" font-weight="600" text-anchor="middle">
+    <text x="152" y="341">Atividade</text>
+    <text x="360" y="341">Endereço</text>
+    <text x="568" y="341">Registro</text>
+  </g>
+</svg>

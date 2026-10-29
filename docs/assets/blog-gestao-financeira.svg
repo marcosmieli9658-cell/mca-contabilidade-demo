@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" fill="none">
+  <rect width="720" height="480" fill="#EAF3F8"/>
+  <path d="M64 89h592" stroke="#BDD5E3"/>
+  <path d="M64 391h592" stroke="#BDD5E3"/>
+  <rect x="64" y="134" width="240" height="88" rx="12" fill="#FFF"/>
+  <rect x="64" y="254" width="240" height="88" rx="12" fill="#FFF"/>
+  <path d="M93 178h22m-11-11v22M93 298h22" stroke="#17658F" stroke-width="3" stroke-linecap="round"/>
+  <text x="137" y="185" fill="#17658F" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="21" font-weight="600">Entradas</text>
+  <text x="137" y="305" fill="#17658F" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="21" font-weight="600">Saídas</text>
+  <path d="M304 178h44v120h-44m44-60h57m-12-12 12 12-12 12" stroke="#3F9ED8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="428" y="134" width="228" height="208" rx="12" fill="#4D4946"/>
+  <path d="M463 172h32m-32 12h32" stroke="#3F9ED8" stroke-width="3" stroke-linecap="round"/>
+  <text x="463" y="242" fill="#FFF" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="27" font-weight="600">Saldo</text>
+  <path d="M463 281h156" stroke="#8F8984" stroke-linecap="round"/>
+  <path d="M463 296h108" stroke="#8F8984" stroke-linecap="round"/>
+</svg>

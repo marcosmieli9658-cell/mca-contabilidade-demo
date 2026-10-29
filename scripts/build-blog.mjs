@@ -24,6 +24,37 @@ const preferredOrder = [
   'das-e-dasn-simei',
   'primeira-conversa-contabilidade'
 ];
+const relatedOrder = {
+  'fluxo-de-caixa-pequeno-negocio': ['receita-despesas-lucro', 'primeira-conversa-contabilidade'],
+  'receita-despesas-lucro': ['fluxo-de-caixa-pequeno-negocio', 'primeira-conversa-contabilidade'],
+  'nota-fiscal-mei': ['rotina-mensal-mei', 'das-e-dasn-simei'],
+  'rotina-mensal-mei': ['nota-fiscal-mei', 'das-e-dasn-simei'],
+  'das-e-dasn-simei': ['rotina-mensal-mei', 'nota-fiscal-mei'],
+  'antes-de-abrir-empresa': ['primeira-conversa-contabilidade', 'fluxo-de-caixa-pequeno-negocio'],
+  'primeira-conversa-contabilidade': ['antes-de-abrir-empresa', 'rotina-mensal-mei']
+};
+const topicInvites = {
+  mei: {
+    subject: 'MEI',
+    title: 'Organize as dúvidas sobre a sua rotina como MEI.',
+    description: 'Notas fiscais, registros de receitas e documentos do mês ajudam a preparar uma conversa com a MCA.',
+    action: 'Conversar sobre meu MEI'
+  },
+  'gestao-financeira': {
+    subject: 'organização financeira',
+    title: 'Leve os números do seu negócio para a conversa.',
+    description: 'Reúna seus registros de entradas, saídas e as dúvidas que surgiram durante a leitura.',
+    action: 'Conversar com a MCA'
+  },
+  'comecar-negocio': {
+    subject: 'abertura de empresa',
+    title: 'Antes de abrir, organize as perguntas.',
+    description: 'Atividade, endereço e documentos são um ponto de partida para conversar sobre o seu negócio com a MCA.',
+    action: 'Conversar sobre meu negócio'
+  }
+};
+
+const arrow = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (character) => ({
@@ -201,10 +232,10 @@ function renderDocument({ title, description, root, main, filters = false, pageP
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="MCA Contabilidade &amp; Assessoria. Contabilidade clara. Seu negócio em movimento. Proposta de site." />
     <link rel="icon" type="image/png" href="${root}assets/favicon.png" />
-    <link rel="stylesheet" href="${root}styles.css?v=presentation-1" />
-    <link rel="stylesheet" href="${root}blog.css?v=presentation-1" />
-    <script src="${root}script.js?v=presentation-1" defer></script>
-    ${filters ? `<script src="${root}blog-filters.js?v=presentation-1" defer></script>` : ''}
+    <link rel="stylesheet" href="${root}styles.css?v=redesign-1" />
+    <link rel="stylesheet" href="${root}blog.css?v=redesign-1" />
+    <script src="${root}script.js?v=redesign-1" defer></script>
+    ${filters ? `<script src="${root}blog-filters.js?v=redesign-1" defer></script>` : ''}
   </head>
   <body class="blog-page">
     ${renderHeader(root)}
@@ -215,13 +246,16 @@ function renderDocument({ title, description, root, main, filters = false, pageP
 `.replace(/^[ \t]+$/gm, '');
 }
 
-function renderCard(post, href, headingLevel = 2, featured = false) {
+function renderCard(post, href, { headingLevel = 2, featured = false, root = '../' } = {}) {
   return `<article class="blog-card${featured ? ' blog-card--featured' : ''}" data-topic="${post.topic}">
     <a class="blog-card__link" href="${href}">
-      <span class="blog-card__top"><span class="blog-card__category">${escapeHtml(post.category)}</span><span class="blog-card__arrow" aria-hidden="true">↗</span></span>
-      <h${headingLevel}>${escapeHtml(post.title)}</h${headingLevel}>
-      <p>${escapeHtml(post.description)}</p>
-      <span class="blog-card__meta">${escapeHtml(post.readingTime)} de leitura <span aria-hidden="true">·</span> ${escapeHtml(displayDate(post.updated))}</span>
+      <span class="blog-card__cover"><img src="${root}assets/blog-${post.topic}.svg" width="720" height="480" alt="" loading="lazy" decoding="async" /></span>
+      <div class="blog-card__body">
+        <h${headingLevel}>${escapeHtml(post.title)}</h${headingLevel}>
+        <p>${escapeHtml(post.description)}</p>
+        <span class="blog-card__meta"><span class="blog-card__category">${escapeHtml(post.category)}</span><span>${escapeHtml(post.readingTime)} de leitura</span><time datetime="${post.updated}">${escapeHtml(displayDate(post.updated))}</time></span>
+      </div>
+      <span class="blog-card__arrow">${arrow}</span>
     </a>
   </article>`;
 }
@@ -233,8 +267,14 @@ function renderHomeHighlights(home, posts) {
     throw new Error('Marcadores dos destaques do blog ausentes ou duplicados em docs/index.html');
   }
   const eol = home.includes('\r\n') ? '\r\n' : '\n';
-  const cards = posts.slice(0, 3)
-    .map((post, index) => renderCard(post, `blog/${post.slug}/`, 3, index === 0))
+  const highlightTopics = new Set();
+  const highlights = posts.filter((post) => {
+    if (highlightTopics.has(post.topic)) return false;
+    highlightTopics.add(post.topic);
+    return true;
+  }).slice(0, 3);
+  const cards = highlights
+    .map((post, index) => renderCard(post, `blog/${post.slug}/`, { headingLevel: 3, featured: index === 0, root: '' }))
     .join('\n')
     .split('\n').map((line) => `            ${line}`).join(eol);
   return home.replace(/<!-- BLOG_CARDS_START -->[\s\S]*?<!-- BLOG_CARDS_END -->/,
@@ -242,7 +282,7 @@ function renderHomeHighlights(home, posts) {
 }
 
 function renderBlogIndex(posts) {
-  const cards = posts.map((post, index) => renderCard(post, `${post.slug}/`, 2, index === 0)).join('\n');
+  const cards = posts.map((post, index) => renderCard(post, `${post.slug}/`, { featured: index === 0 })).join('\n');
   const filters = [{ id: 'todos', label: 'Todos' }, ...blogTopics].map((topic) => {
     const count = topic.id === 'todos' ? posts.length : posts.filter((post) => post.topic === topic.id).length;
     return `<button class="blog-filters__button" type="button" data-topic-filter="${topic.id}" aria-pressed="${topic.id === 'todos'}" aria-controls="blog-articles"><span>${escapeHtml(topic.label)}</span><span class="blog-filters__count" aria-hidden="true">${count}</span></button>`;
@@ -250,32 +290,28 @@ function renderBlogIndex(posts) {
   const main = `
     <section class="blog-hero" aria-labelledby="blog-title">
       <div class="container blog-hero__inner">
-        <div>
-          <p class="eyebrow eyebrow--light"><span class="eyebrow__line" aria-hidden="true"></span>Blog MCA</p>
-          <h1 id="blog-title">Informação para cuidar do seu negócio com mais clareza<span>.</span></h1>
-          <p>Leituras práticas para quem empreende. Comece por uma dúvida do seu dia a dia e encontre caminhos para se organizar melhor.</p>
-        </div>
-        <div class="blog-hero__mark" aria-hidden="true"><span>M</span><span>C</span><span>A</span></div>
+        <h1 id="blog-title">Blog MCA<span>.</span></h1>
+        <p>Informação prática para MEIs e pequenos negócios.</p>
       </div>
     </section>
     <section class="blog-listing section" aria-labelledby="articles-title" data-blog-filtering>
       <div class="container">
         <div class="blog-listing__heading">
-          <div><p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Leituras</p><h2 id="articles-title">Comece por aqui.</h2></div>
-          <p>Artigos de demonstração preparados com fontes oficiais. O conteúdo ainda passará por revisão técnica da MCA.</p>
+          <h2 id="articles-title">Explore por tema</h2>
+          <p>Escolha uma dúvida do seu dia a dia.</p>
         </div>
         <div class="blog-filters" data-blog-filters hidden>
-          <p class="blog-filters__label" id="blog-filter-label">Explore por tema</p>
-          <div class="blog-filters__options" role="group" aria-labelledby="blog-filter-label">${filters}</div>
+          <div class="blog-filters__options" role="group" aria-labelledby="articles-title">${filters}</div>
           <p class="blog-filters__status" data-filter-status role="status" aria-live="polite" aria-atomic="true">${posts.length} artigos para explorar.</p>
         </div>
+        <p class="blog-listing__review">Artigos de demonstração preparados com fontes oficiais. O conteúdo ainda passará por revisão técnica da MCA.</p>
         <div class="blog-grid" id="blog-articles" data-blog-articles>${cards}</div>
       </div>
     </section>
     <section class="blog-invite" aria-labelledby="blog-invite-title">
       <div class="container blog-invite__inner">
-        <div><p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Uma dúvida de cada vez</p><h2 id="blog-invite-title">Entender é o primeiro passo para decidir melhor.</h2></div>
-        <a class="button button--primary" href="../#contato">Converse com a MCA <span aria-hidden="true">↗</span></a>
+        <div><h2 id="blog-invite-title">Uma dúvida sobre o seu negócio?</h2><p>Reúna suas informações e converse com a MCA.</p></div>
+        <a class="button button--primary" href="../#contato">Converse com a MCA ${arrow}</a>
       </div>
     </section>`;
   return renderDocument({ title: 'Conteúdos para MEIs e pequenos negócios', description: 'Artigos práticos da prévia do blog MCA para MEIs e pequenos negócios.', root: '../', main, filters: true });
@@ -287,8 +323,15 @@ function renderPost(post, posts) {
     <strong>Neste artigo</strong><ol>${post.headings.map((heading) => `<li><a href="#${heading.id}">${escapeHtml(heading.label)}</a></li>`).join('')}</ol>
   </nav>` : '';
   const sources = post.sources.map((source, index) => `<li><span>${String(index + 1).padStart(2, '0')}</span><a href="${escapeHtml(source.url)}">${escapeHtml(source.title)} <span aria-hidden="true">↗</span></a></li>`).join('');
-  const related = posts.filter((candidate) => candidate.slug !== post.slug).slice(0, 2)
-    .map((candidate) => renderCard(candidate, `../${candidate.slug}/`, 3)).join('\n');
+  const priority = relatedOrder[post.slug] || [];
+  const relatedPosts = priority.map((slug) => posts.find((candidate) => candidate.slug === slug)).filter(Boolean);
+  for (const candidate of posts.filter((item) => item.topic === post.topic)) {
+    if (candidate.slug !== post.slug && !relatedPosts.includes(candidate)) relatedPosts.push(candidate);
+  }
+  const related = relatedPosts.slice(0, 2)
+    .map((candidate) => renderCard(candidate, `../${candidate.slug}/`, { headingLevel: 3, root })).join('\n');
+  const invite = topicInvites[post.topic];
+  const articleContactUrl = `https://wa.me/5512991404535?text=${encodeURIComponent(`Olá! Li um artigo do Blog MCA sobre ${invite.subject} e gostaria de conhecer o apoio para meu negócio.`)}`;
   const main = `
     <nav class="article-breadcrumb container" aria-label="Caminho de navegação">
       <a href="../../">Início</a><span aria-hidden="true">/</span><a href="../">Blog</a><span aria-hidden="true">/</span><span>${escapeHtml(post.category)}</span>
@@ -296,27 +339,30 @@ function renderPost(post, posts) {
     <article>
       <header class="article-header">
         <div class="article-container">
-          <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>${escapeHtml(post.category)}</p>
           <h1>${escapeHtml(post.title)}</h1>
           <p class="article-header__description">${escapeHtml(post.description)}</p>
-          <div class="article-header__meta"><time datetime="${post.updated}">Atualizado em ${escapeHtml(displayDate(post.updated))}</time><span aria-hidden="true">·</span><span>${escapeHtml(post.readingTime)} de leitura</span></div>
+          <div class="article-header__meta"><span class="blog-card__category">${escapeHtml(post.category)}</span><time datetime="${post.updated}">Atualizado em ${escapeHtml(displayDate(post.updated))}</time><span aria-hidden="true">·</span><span>${escapeHtml(post.readingTime)} de leitura</span></div>
         </div>
       </header>
       <div class="article-container article-main">
-        <div class="article-review"><span aria-hidden="true">●</span><p><strong>Conteúdo de demonstração.</strong> Este texto está em avaliação e será revisado tecnicamente pela MCA antes da versão definitiva.</p></div>
+        <div class="article-review"><p><strong>Conteúdo de demonstração.</strong> Este texto está em avaliação e será revisado tecnicamente pela MCA antes da versão definitiva.</p></div>
         ${toc}
         <div class="article-prose">${post.body}</div>
         <section class="article-sources" aria-labelledby="sources-title">
-          <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Apuração</p>
           <h2 id="sources-title">Fontes consultadas</h2>
           <ol>${sources}</ol>
           <p>Confira a situação e a data de vigência das orientações oficiais antes de aplicá-las ao seu caso.</p>
+        </section>
+        <section class="article-invite" aria-labelledby="article-invite-title">
+          <h2 id="article-invite-title">${escapeHtml(invite.title)}</h2>
+          <p>${escapeHtml(invite.description)}</p>
+          <a class="button button--primary" href="${escapeHtml(articleContactUrl)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(invite.action)} (abre o WhatsApp em nova aba)">${escapeHtml(invite.action)} ${arrow}</a>
         </section>
       </div>
     </article>
     <section class="article-related section" aria-labelledby="related-title">
       <div class="container">
-        <div class="article-related__heading"><div><p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Continue lendo</p><h2 id="related-title">Outras dúvidas, novas respostas.</h2></div><a href="../">Ver todos os artigos <span aria-hidden="true">↗</span></a></div>
+        <div class="article-related__heading"><h2 id="related-title">Continue a leitura</h2><a href="../">Ver todos os artigos <span aria-hidden="true">↗</span></a></div>
         <div class="blog-grid">${related}</div>
       </div>
     </section>`;

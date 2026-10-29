@@ -49,7 +49,7 @@ mobileViewport.addEventListener('change', () => {
   }
 });
 
-const serviceTriggers = document.querySelectorAll('.service-card__trigger');
+const serviceTriggers = document.querySelectorAll('.service-card__trigger, .need-service');
 if (serviceTriggers.length && typeof HTMLDialogElement !== 'undefined' && typeof HTMLDialogElement.prototype.showModal === 'function') {
   document.documentElement.classList.add('dialog-ready');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -101,7 +101,8 @@ if (serviceTriggers.length && typeof HTMLDialogElement !== 'undefined' && typeof
       closeTimeout = window.setTimeout(finishClose, 280);
     }
 
-    trigger.addEventListener('click', () => {
+    trigger.addEventListener('click', (event) => {
+      event.preventDefault();
       if (dialog.open) return;
       clearClosingState();
       if (isMenuOpen()) setMenuOpen(false);
@@ -131,7 +132,7 @@ if (serviceTriggers.length && typeof HTMLDialogElement !== 'undefined' && typeof
   }
 }
 
-const sweepCards = document.querySelectorAll('.service-card, .blog-card');
+const sweepCards = document.querySelectorAll('.service-card, .need-panel, .blog-card');
 if (sweepCards.length) {
   const fineHover = window.matchMedia('(hover: hover) and (pointer: fine)');
   const cardMotionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
